@@ -1,6 +1,19 @@
 open class SmartDevice(val name: String, val category: String){
     var deviceStatus: String = "online"
+
     open fun turnOnDevice() {
+        //  we can add the settler function here 
+        // this settler we can decide to be accesible to the subclass and parent class only 
+        //using the modifier protected
+        //example
+
+        protected set(value) {
+        field = value
+        }
+        // the short hand of this since we just assigning value we can just write it like this
+
+        // deviceStatus = value
+        protected set
 		println("The device is turned on")
     }
     open fun turnOffDevice() {
@@ -12,14 +25,14 @@ open class SmartDevice(val name: String, val category: String){
 class SmartTvDevice (deviceName: String, deviceCategory : String) :  SmartDevice (deviceName ,deviceCategory) {
     
     // Defining a setlers
-    var speakerVolume = 2
+    private var speakerVolume = 2
     set(value) {
         if(value in 1..100){
             field = value
         }
     }
     
-    var channelNumber = 1
+    private var channelNumber = 1
     set(value) {
         if (value in 1..200){
 			field = value
@@ -29,7 +42,7 @@ class SmartTvDevice (deviceName: String, deviceCategory : String) :  SmartDevice
         speakerVolume++
         println("The speaker volume is increased to $speakerVolume")
     }
-    fun changeChannel() {
+    protected fun changeChannel() {
 		channelNumber++
         println("Channel number is changed to $channelNumber")
     }
@@ -53,7 +66,7 @@ class SmartTvDevice (deviceName: String, deviceCategory : String) :  SmartDevice
 class SmartLightDevice(deviceName: String, deviceCategory: String) : SmartDevice(
 	deviceName,deviceCategory
 ){
-    var brightnessLevel: Int = 0
+    private var brightnessLevel: Int = 0
     set(value){
         if(value in 1..100){
             field = value
@@ -97,6 +110,9 @@ class SmartHome(val smartTvDevice: SmartTvDevice, val smartLight: SmartLightDevi
         smartLight.turnOffDevice()
         smartTvDevice.turnOffDevice()
     }
+    //
+    var deviceTurnOnCount = 0
+    private set
 }
 
 fun main() {
